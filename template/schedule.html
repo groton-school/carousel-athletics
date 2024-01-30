@@ -85,6 +85,14 @@
       let clean = true;
       args.forEach((value, key) => {
         if (value.toString().length > 0) {
+          if (key === 'start_relative' || key === 'end_relative') {
+            if (/\d+$/.test(value)) {
+              value = `${value} days`;
+            }
+            if (/^\d+/.test(value)) {
+              value = `+${value}`;
+            }
+          }
           params.append(key, value);
         } else {
           clean = false;
