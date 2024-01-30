@@ -2,14 +2,47 @@
 <html lang="en">
   <head>
     <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arimo&display=swap"
+      rel="stylesheet"
+    />
     <style>
       body {
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         display: grid;
         grid-template-columns: 1fr auto 1fr;
         grid-template-rows: 1fr auto 1.618fr;
+        font-family: 'Arimo', sans-serif;
+        font-size: 0.25in;
+        font-size: 2vw;
+        color: #4f4f4f;
+        background: #d7d0d1;
+      }
+
+      .content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-image: url('seal.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50vh;
+        opacity: 0.05;
       }
 
       .content {
@@ -22,6 +55,28 @@
 
       .content.team .team {
         display: none;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      td {
+        padding: 0 0.5em;
+      }
+
+      h1 {
+        font-family: 'Libre Baskerville', serif;
+        color: #8e0f11;
+        margin-top: 0;
+        font-size: 0.5in;
+        font-size: 5vw;
+      }
+
+      tr:nth-child(even) {
+        background: #b8aeaf;
+        opacity: 0.65;
+        color: black;
       }
     </style>
   </head>
@@ -49,18 +104,26 @@
               content.innerHTML = `<h1>${schedule[0].team.name}</h1>`;
               content.classList.add('team');
             } else {
-              content.innerHTML = `<h1>${new Date(
-                schedule[0].game_date
-              ).toLocaleDateString()} &ndash; ${new Date(
-                schedule[schedule.length - 1].game_date
-              ).toLocaleDateString()}</h1>`;
+              try {
+                content.innerHTML = `<h1>${new Date(
+                  schedule[0].game_date
+                ).toLocaleDateString()} &ndash; ${new Date(
+                  schedule[schedule.length - 1].game_date
+                ).toLocaleDateString()}</h1>`;
+              } catch (err) {
+                console.error({
+                  first: schedule[0],
+                  last: schedule[schedule.length - 1]
+                });
+                content.innerHTML = `<h1>#Error</h1>`;
+              }
             }
             document.head.title = content.innerText;
             const box = document.createElement('table');
             schedule.forEach((e) => {
+              const entry = document.createElement('tr');
+              entry.classList.add('entry');
               try {
-                const entry = document.createElement('tr');
-                entry.classList.add('entry');
                 entry.innerHTML = `
                 <td class="date">${new Date(
                   e.game_date
@@ -78,10 +141,10 @@
                     : e.opponents.map((o) => o.win_loss).join(', ')
                 }</td>
               `;
-                box.appendChild(entry);
               } catch (er) {
                 console.error({ entry: e, error: er });
               }
+              box.appendChild(entry);
             });
             content.appendChild(box);
           });
