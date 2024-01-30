@@ -6,7 +6,7 @@
     },
     "run" : {
       "enabled" : true,
-      "script" : "npm run build\nsource .env\ngcloud app deploy --project=$PROJECT --quiet"
+      "script" : "npm run deploy"
     }
   },
   "openLogOnRun" : "start"
