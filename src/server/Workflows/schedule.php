@@ -16,11 +16,11 @@ if (empty($token)) {
 $athletics = SKY::api()->endpoint('school/v1/athletics');
 
 $params = $_GET;
-if ($params['start_relative']) {
+if (!empty($params['start_relative'])) {
     $params['start_date'] = date('Y-m-d', strtotime($params['start_relative']));
     unset($params['start_relative']);
 }
-if ($params['end_relative']) {
+if (!empty($params['end_relative'])) {
     $params['end_date'] = date('Y-m-d', strtotime($params['end_relative']));
     unset($params['end_relative']);
 }

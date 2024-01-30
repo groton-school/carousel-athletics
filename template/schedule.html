@@ -25,10 +25,9 @@
         grid-template-columns: 1fr auto 1fr;
         grid-template-rows: 1fr auto 1.618fr;
         font-family: 'Arimo', sans-serif;
-        font-size: 0.25in;
-        font-size: 2vw;
+        font-size: 50px;
         color: #4f4f4f;
-        background: #d7d0d1;
+        background-color: hsl(351, 8%, 83%);
       }
 
       .content::before {
@@ -51,6 +50,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        margin: 30px;
       }
 
       .content.team .team {
@@ -69,14 +69,11 @@
         font-family: 'Libre Baskerville', serif;
         color: #8e0f11;
         margin-top: 0;
-        font-size: 0.5in;
-        font-size: 5vw;
+        font-size: 75px;
       }
 
       tr:nth-child(even) {
-        background: #b8aeaf;
-        opacity: 0.65;
-        color: black;
+        background: hsla(351, 8%, 63%, 0.25);
       }
     </style>
   </head>
@@ -97,54 +94,87 @@
         window.location.search = params.toString();
       } else {
         const content = document.querySelector('.content');
+        const title = params.get('title');
+        const title_position = params.get('title_position');
+        const hide_scoreless = !!params.get('hide_scoreless');
+        params.delete('title');
+        params.delete('title_position');
+        params.delete('hide_scoreless');
         fetch('schedule?' + params.toString())
           .then((response) => response.json())
           .then((schedule) => {
+            let baseTitle = '';
             if (params.has('team_id')) {
-              content.innerHTML = `<h1>${schedule[0].team.name}</h1>`;
+              baseTitle = schedule[0].team.name;
               content.classList.add('team');
             } else {
-              try {
-                content.innerHTML = `<h1>${new Date(
-                  schedule[0].game_date
-                ).toLocaleDateString()} &ndash; ${new Date(
-                  schedule[schedule.length - 1].game_date
-                ).toLocaleDateString()}</h1>`;
-              } catch (err) {
-                console.error({
-                  first: schedule[0],
-                  last: schedule[schedule.length - 1]
-                });
-                content.innerHTML = `<h1>#Error</h1>`;
-              }
+              baseTitle = `${new Date(schedule[0].game_date).toLocaleDateString(
+                'en-us',
+                { month: 'long', day: 'numeric' }
+              )} &ndash; ${new Date(
+                schedule[schedule.length - 1].game_date
+              ).toLocaleDateString('en-us', {
+                month: 'long',
+                day: 'numeric'
+              })}`;
+            }
+            switch (title_position) {
+              case 'prepend':
+                content.innerHTML = `<h1>${title}${baseTitle}</h1>`;
+                break;
+              case 'replace':
+                content.innerHTML = `<h1>${title}</h1>`;
+                break;
+              case 'append':
+                content.innerHTML = `<h1>${baseTitle}${title}</h1>`;
+                break;
+              default:
+                content.innerHTML = `<h1>${baseTitle}</h1>`;
             }
             document.head.title = content.innerText;
             const box = document.createElement('table');
+            let prevDate;
             schedule.forEach((e) => {
               const entry = document.createElement('tr');
               entry.classList.add('entry');
               try {
                 entry.innerHTML = `
-                <td class="date">${new Date(
-                  e.game_date
-                ).toLocaleDateString()}</td>
+                <td class="date">${
+                  prevDate != e.game_date
+                    ? new Date(e.game_date).toLocaleDateString('en-us', {
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                    : ''
+                }</td>
                 <td class="team">${e.team.name}</td>
-                <td class="opponent">${e.opponents
-                  .map((o) => o.name)
-                  .join(', ')}</td>
-                <td class="score">${e.opponents
-                  .map((o) => o.score)
-                  .join(', ')}</td>
+                <td class="opponent">${
+                  e.opponents
+                    ? e.opponents.map((o) => o.name).join(', ')
+                    : e.title
+                }</td>
+                <td class="score">${
+                  e.opponents ? e.opponents.map((o) => o.score).join(', ') : ''
+                }</td>
                 <td class="outcome">${
                   e.scrimmage
                     ? 'Scrimmage'
-                    : e.opponents.map((o) => o.win_loss).join(', ')
+                    : e.opponents
+                    ? e.opponents.map((o) => o.win_loss).join(', ')
+                    : ''
                 }</td>
               `;
               } catch (er) {
                 console.error({ entry: e, error: er });
               }
-              box.appendChild(entry);
+              if (
+                !hide_scoreless ||
+                (hide_scoreless &&
+                  entry.querySelector('.score').innerText != '')
+              ) {
+                box.appendChild(entry);
+                prevDate = e.game_date;
+              }
             });
             content.appendChild(box);
           });
