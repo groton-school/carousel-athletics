@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: 1fr auto 1.618fr;
+      }
+
+      .content {
+        grid-column: 2;
+        grid-row: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+
+      .content.team .team {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content"></div>
+    <script>
+      const args = new URLSearchParams(window.location.search);
+      const params = new URLSearchParams();
+      let clean = true;
+      args.forEach((value, key) => {
+        if (value.toString().length > 0) {
+          params.append(key, value);
+        } else {
+          clean = false;
+        }
+      });
+      if (!clean) {
+        window.location.search = params.toString();
+      } else {
+        const content = document.querySelector('.content');
+        fetch('schedule?' + params.toString())
+          .then((response) => response.json())
+          .then((schedule) => {
+            if (params.has('team_id')) {
+              content.innerHTML = `<h1>${schedule[0].team.name}</h1>`;
+              content.classList.add('team');
+            } else {
+              content.innerHTML = `<h1>${new Date(
+                schedule[0].game_date
+              ).toLocaleDateString()} &ndash; ${new Date(
+                schedule[schedule.length - 1].game_date
+              ).toLocaleDateString()}</h1>`;
+            }
+            document.head.title = content.innerText;
+            const box = document.createElement('table');
+            schedule.forEach((e) => {
+              try {
+                const entry = document.createElement('tr');
+                entry.classList.add('entry');
+                entry.innerHTML = `
+                <td class="date">${new Date(
+                  e.game_date
+                ).toLocaleDateString()}</td>
+                <td class="team">${e.team.name}</td>
+                <td class="opponent">${e.opponents
+                  .map((o) => o.name)
+                  .join(', ')}</td>
+                <td class="score">${e.opponents
+                  .map((o) => o.score)
+                  .join(', ')}</td>
+                <td class="outcome">${
+                  e.scrimmage
+                    ? 'Scrimmage'
+                    : e.opponents.map((o) => o.win_loss).join(', ')
+                }</td>
+              `;
+                box.appendChild(entry);
+              } catch (er) {
+                console.error({ entry: e, error: er });
+              }
+            });
+            content.appendChild(box);
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "groton-school/carousel-athletics",
+  "description": "Display athletics schedule information for Carousel",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Seth Battis",
+      "email": "sbattis@groton.org"
+    }
+  ],
+  "require": {
+    "ext-curl": "*",
+    "ext-memcached": "*",
+    "battis/lazy-secrets": "^0.2.0",
+    "google/apiclient": "^2.15",
+    "groton-school/oauth2-blackbaudsky": "^0.2.2",
+    "monolog/monolog": "^3.5",
+    "google/appengine-php-sdk": "^2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "GrotonSchool\\AthleticsSchedule\\": "src/server"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
