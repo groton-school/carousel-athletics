@@ -1,18 +1,14 @@
 <?php
 
 use GrotonSchool\AthleticsSchedule\Blackbaud\SKY;
+use GrotonSchool\AthleticsSchedule\Blackbaud\Team;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
 session_start();
-
-$token = SKY::getToken($_SERVER, $_SESSION, $_GET, false);
-if (empty($token)) {
+if (!SKY::isReady($_SERVER, $_SESSION, $_GET)) {
     echo json_encode(['error' => 'not authenticated']);
     exit();
 }
-
-$athletics = SKY::api()->endpoint('school/v1/athletics');
-$result = $athletics->get('teams?' . http_build_query($_GET));
-echo json_encode($result);
+echo json_encode(Team::getAll($_GET));
 exit();

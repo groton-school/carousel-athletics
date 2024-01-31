@@ -51,6 +51,11 @@ class SKY
         return self::$cache;
     }
 
+    public static function isReady($server, $session, $get)
+    {
+        return !!self::getToken($server, $session, $get, false);
+    }
+
     public static function getToken(
         $server,
         $session,
