@@ -3,5 +3,6 @@ module.exports = require('@battis/webpack/ts/spa')({
   appName: 'Carousel - Athletics',
   entry: './src/client/index.ts',
   template: 'template',
-  build: 'public'
+  build: 'public',
+  production: true
 });

@@ -6,6 +6,8 @@ use JsonSerializable;
 
 class Team implements JsonSerializable
 {
+    public const SKY_PARAMS = ['school_year'];
+
     private static array $teams = [];
 
     private string $id;
@@ -31,8 +33,18 @@ class Team implements JsonSerializable
      */
     public static function getAll($params = []): array
     {
-        $athletics = SKY::api()->endpoint('school/v1/athletics');
-        $result = $athletics->get('teams?' . http_build_query($params));
+        $result = SKY::api()
+            ->endpoint('school/v1')
+            ->get(
+                'athletics/teams?' .
+                    http_build_query(
+                        array_filter(
+                            $params,
+                            fn ($key) => in_array($key, self::SKY_PARAMS),
+                            ARRAY_FILTER_USE_KEY
+                        )
+                    )
+            );
 
         return array_map(fn ($t) => new Team($t), $result['value']);
     }

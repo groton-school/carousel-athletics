@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfb1029b2acef83f82dc55d6047bc273",
+    "content-hash": "8075fecb90c04284766000158b573e07",
     "packages": [
         {
             "name": "battis/lazy-secrets",
@@ -1227,6 +1227,113 @@
             "time": "2014-10-12T19:18:40+00:00"
         },
         {
+            "name": "kigkonsult/icalcreator",
+            "version": "v2.41.90",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iCalcreator/iCalcreator.git",
+                "reference": "c62c46f5f5a10afeb1c5b93ae973fb4332d4c0ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iCalcreator/iCalcreator/zipball/c62c46f5f5a10afeb1c5b93ae973fb4332d4c0ea",
+                "reference": "c62c46f5f5a10afeb1c5b93ae973fb4332d4c0ea",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-simplexml": "*",
+                "ext-zlib": "*",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "degraciamathieu/php-arguments-detector": ">=0.5.0",
+                "ext-xdebug": "*",
+                "phpcompatibility/php-compatibility": ">=9.3.5",
+                "phpmd/phpmd": ">=2.13.0",
+                "phpstan/phpstan": ">=0.9.3",
+                "phpunit/phpunit": ">=6.5.13",
+                "squizlabs/php_codesniffer": ">=3.5.5",
+                "vimeo/psalm": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ],
+                "psr-4": {
+                    "Kigkonsult\\Icalcreator\\": [
+                        "src/"
+                    ]
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Kjell-Inge Gustafsson",
+                    "email": "ical@kigkonsult.se"
+                }
+            ],
+            "description": "iCalcreator is the PHP implementation of rfc2445/rfc5545 and rfc updates, management of calendar information",
+            "keywords": [
+                "alarm",
+                "availability",
+                "calendar",
+                "daylight",
+                "event",
+                "ical",
+                "json",
+                "location",
+                "management",
+                "participant",
+                "resource",
+                "rfc2445",
+                "rfc5545",
+                "rfc5870",
+                "rfc6321",
+                "rfc6868",
+                "rfc7529",
+                "rfc7808",
+                "rfc7953",
+                "rfc7986",
+                "rfc9073",
+                "rfc9074",
+                "standard",
+                "todo",
+                "vCalendar",
+                "valarm",
+                "vevent",
+                "vfreebusy",
+                "vjournal",
+                "vtimezone",
+                "vtodo",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/iCalcreator/iCalcreator/issues",
+                "source": "https://github.com/iCalcreator/iCalcreator/tree/v2.41.90"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/kigkonsult",
+                    "type": "other"
+                },
+                {
+                    "url": "https://www.buymeacoffee.com/kigkonsult",
+                    "type": "other"
+                }
+            ],
+            "time": "2024-01-22T10:28:44+00:00"
+        },
+        {
             "name": "league/oauth2-client",
             "version": "2.7.0",
             "source": {
@@ -1295,107 +1402,6 @@
                 "source": "https://github.com/thephpleague/oauth2-client/tree/2.7.0"
             },
             "time": "2023-04-16T18:19:15+00:00"
-        },
-        {
-            "name": "mibe/feedwriter",
-            "version": "v1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mibe/FeedWriter.git",
-                "reference": "b32ed2a68e612a1f6045d00d342df6928ecfecad"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mibe/FeedWriter/zipball/b32ed2a68e612a1f6045d00d342df6928ecfecad",
-                "reference": "b32ed2a68e612a1f6045d00d342df6928ecfecad",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FeedWriter\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Anis uddin Ahmad",
-                    "email": "anis.programmer@gmail.com"
-                },
-                {
-                    "name": "Michael Bemmerl",
-                    "email": "mail@mx-server.de"
-                },
-                {
-                    "name": "Phil Freo"
-                },
-                {
-                    "name": "Paul Ferrett"
-                },
-                {
-                    "name": "Brennen Bearnes"
-                },
-                {
-                    "name": "Michael Robinson",
-                    "email": "mike@pagesofinterest.net"
-                },
-                {
-                    "name": "Baptiste Fontaine"
-                },
-                {
-                    "name": "Kristián Valentín"
-                },
-                {
-                    "name": "Brandtley McMinn"
-                },
-                {
-                    "name": "Julian Bogdani"
-                },
-                {
-                    "name": "Cedric Gampert"
-                },
-                {
-                    "name": "Yamek"
-                },
-                {
-                    "name": "thielj"
-                },
-                {
-                    "name": "Pavel Khakhlou"
-                },
-                {
-                    "name": "Daniel"
-                },
-                {
-                    "name": "Tino Goratsch"
-                }
-            ],
-            "description": "Generate feeds in either RSS 1.0, RSS 2.0 or ATOM formats",
-            "homepage": "https://github.com/mibe/FeedWriter",
-            "keywords": [
-                "RSS 1.0",
-                "atom",
-                "feed",
-                "rss",
-                "rss 2.0",
-                "rss2"
-            ],
-            "support": {
-                "issues": "https://github.com/mibe/FeedWriter/issues",
-                "source": "https://github.com/mibe/FeedWriter/tree/v1.1.2"
-            },
-            "time": "2023-05-24T23:01:35+00:00"
         },
         {
             "name": "monolog/monolog",

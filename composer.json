@@ -15,7 +15,7 @@
     "google/apiclient": "^2.15",
     "google/appengine-php-sdk": "^2.2",
     "groton-school/oauth2-blackbaudsky": "^0.2.2",
-    "mibe/feedwriter": "^1.1",
+    "kigkonsult/icalcreator": "^2.41",
     "monolog/monolog": "^3.5"
   },
   "autoload": {

@@ -6,6 +6,15 @@ use JsonSerializable;
 
 class Schedule implements JsonSerializable
 {
+    public const SKY_PARAMS = [
+        'start_date',
+        'end_date',
+        'school_year',
+        'include_practice',
+        'team_id',
+        'last_modified',
+    ];
+
     private array $params;
 
     /** @var ScheduleItem[] $items */
@@ -60,53 +69,61 @@ class Schedule implements JsonSerializable
             'ymd',
         ]);
         if ($end_relative) {
-            $params['end_date'] = $end_relative;
+            $schedule->params['end_date'] = $end_relative;
         }
+
+        $future = $schedule->extractParam('future');
 
         $schedule->params = array_filter(
             $schedule->params,
-            fn ($key) => in_array($key, [
-                'start_date',
-                'end_date',
-                'school_year',
-                'include_practice',
-                'team_id',
-                'last_modified',
-            ]),
+            fn ($key) => in_array($key, self::SKY_PARAMS),
             ARRAY_FILTER_USE_KEY
         );
 
         $response = SKY::api()
-            ->endpoint('school/v1/athletics')
-            ->get('schedules?' . http_build_query($schedule->params));
+            ->endpoint('school/v1')
+            ->get('athletics/schedules?' . http_build_query($schedule->params));
 
-        foreach ($response['value'] as $event) {
-            if (!empty($event['opponents'])) {
-                $event['opponent'] = join(
-                    ', ',
-                    array_map(fn ($o) => $o['name'], $event['opponents'])
-                );
-                $event['score'] = join(
-                    ', ',
-                    array_map(fn ($o) => $o['score'], $event['opponents'])
-                );
-                $event['outcome'] = $event['scrimmage']
-                    ? 'Scrimmage'
-                    : join(
-                        ', ',
-                        array_map(fn ($o) => $o['win_loss'], $event['opponents'])
-                    );
-            } else {
-                $event['opponent'] = $event['title'];
+        foreach ($response['value'] as $value) {
+            $item = new ScheduleItem($value);
+            $include = true;
+            if ($future === 'true') {
+                $include = $include && $item->isFuture();
+            } elseif ($future === 'false') {
+                $include = $include && !$item->isFuture();
             }
-            if (
-                !$hide_scoreless ||
-                ($hide_scoreless && !empty($event['score']))
-            ) {
-                $schedule->items[] = new ScheduleItem($event);
+            if ($include && $hide_scoreless && empty($item->getScore())) {
+                $include = false;
+            }
+
+            if ($include) {
+                $schedule->items[] = $item;
             }
         }
         return $schedule;
+    }
+
+    public function getPage(int $offset, int $length)
+    {
+        $page = new Schedule($this->params);
+        $page->items = array_slice($this->items, $offset, $length);
+        return $page;
+    }
+
+    public function getFirst()
+    {
+        if (empty($this->items)) {
+            return null;
+        }
+        return $this->items[0];
+    }
+
+    public function getLast()
+    {
+        if (empty($this->items)) {
+            return null;
+        }
+        return $this->items[count($this->items) - 1];
     }
 
     public function jsonSerialize(): mixed

@@ -28,5 +28,8 @@
   "prettier": "@battis/prettier-config",
   "eslintConfig": {
     "extends": "@battis/eslint-config"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2"
   }
 }
