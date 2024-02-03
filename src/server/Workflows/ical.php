@@ -65,7 +65,16 @@ $ics = new Vcalendar([
 ]);
 $ics->setMethod('PUBLISH');
 $ics->setXprop('X-WR-CALNAME', $title);
-$ics->setXprop('X-WR-CALDESC', json_encode($params));
+$ics->setXprop(
+    'X-WR-CALDESC',
+    'Live updating feed of athletics information from Blackbaud'
+);
+$ics->setUrl(
+    'https://' .
+        $_SERVER['HTTP_HOST'] .
+        str_replace('/ical?', '?', $_SERVER['REQUEST_URI']) .
+        '&mode=edit'
+);
 
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
@@ -87,5 +96,6 @@ foreach ($schedule->items as $item) {
     }
 }
 
+header('Content-Type: text/calendar');
 echo $ics->vtimezonePopulate($tzid)->createCalendar();
 exit();

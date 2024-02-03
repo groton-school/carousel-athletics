@@ -61,16 +61,14 @@ switch ($title_position) {
 }
 
 $feed = new RSS2();
+$url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $feed->setTitle($title);
-$feed->setDescription(json_encode($params));
-$feed->setLink(
-    'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-    'self'
+$feed->setDescription(
+    'Live updating feed of athletics information from Blackbaud'
 );
-$feed->setAtomLink(
-    'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-    'self'
-);
+$feed->setLink($url);
+$feed->setAtomLink(str_replace('/rss?', '?', $url . '&mode=edit'), 'via');
+$feed->setAtomLink($url, 'self');
 
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
@@ -88,7 +86,7 @@ foreach ($schedule->items as $item) {
                 : $item->getScore() .
                     (empty($item->getOutcome())
                         ? ''
-                        : ' (' . $item->getOutcome() . ')')
+                        : '    (' . $item->getOutcome() . ')')
         );
         $event->setId(Uuid::uuid4());
 

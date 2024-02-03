@@ -8,18 +8,6 @@ export default async function Form() {
   if (await (await fetch(`${process.env.URL}/ready`)).json()) {
     Options.add({ title: 'Deauthorize', handler: Deauthorize });
 
-    function params() {
-      const form = document.querySelector('form') as HTMLFormElement;
-      const data = new FormData(form);
-      const params = new URLSearchParams(data as unknown as []);
-      return params.toString();
-    }
-
-    const ical = document.querySelector('#ical') as HTMLButtonElement;
-    ical.addEventListener('click', () => {
-      window.location.href = `${process.env.URL}/ical?` + params();
-    });
-
     const teams = await (await fetch(`${process.env.URL}/teams`)).json();
     const sel: HTMLSelectElement | null = document.querySelector('select');
     const sports: Record<string, Team[]> = {};
@@ -40,7 +28,32 @@ export default async function Form() {
       });
       sel?.appendChild(grp);
     }
-    sel?.closest('form')?.classList.add('ready');
+
+    const params = new URLSearchParams(window.location.search);
+    params.forEach((value, key) => {
+      const inputs = document.querySelectorAll(
+        `input[name="${key}"]`
+      ) as NodeListOf<HTMLInputElement>;
+      inputs.forEach((input) => {
+        switch (input.type) {
+          case 'text':
+            input.value = value;
+            break;
+          case 'radio':
+          case 'checkbox':
+            input.checked = input.value === value;
+            break;
+        }
+      });
+      if (inputs.length === 0) {
+        const options = document.querySelectorAll(
+          `select[name="${key} option"`
+        ) as NodeListOf<HTMLOptionElement>;
+        options.forEach((option) => (option.selected = option.value === value));
+      }
+    });
+
+    document.forms.namedItem('edit')?.classList.add('ready');
   } else {
     Options.add({ title: 'Authorize', handler: Authorize, primary: true });
   }
