@@ -76,7 +76,7 @@ foreach ($schedule->items as $item) {
         $event->setDate($item->getDate('r'));
         $event->addElement('pubDate', $item->getDate('r'));
         $event->addElement('category', $item->getTeamName());
-        $event->setDescription($item->getOpponentName());
+        $event->setDescription(htmlentities($item->getOpponentName()));
         $event->setTitle(
             $item->isFuture()
                 ? $item->getStart() .
@@ -89,6 +89,12 @@ foreach ($schedule->items as $item) {
                         : '    (' . $item->getOutcome() . ')')
         );
         $event->setId(Uuid::uuid4());
+
+        // for Carousel validation
+        $event->addElement(
+            'copyright',
+            empty($item->getOutcome()) ? '' : $item->getOutcome()
+        );
 
         $feed->addItem($event);
     }
