@@ -66,9 +66,9 @@ $feed->setTitle($title);
 $feed->setDescription(
     'Live updating feed of athletics information from Blackbaud'
 );
-$feed->setLink($url);
 $feed->setAtomLink(str_replace('/rss?', '?', $url . '&mode=edit'), 'via');
 $feed->setAtomLink($url, 'self');
+$feed->setLink($url);
 
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
