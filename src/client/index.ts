@@ -10,7 +10,7 @@ switch (mode) {
     params.delete('offset');
     window.location.href = `https://${
       window.location.hostname
-    }/rss?${params.toString()}`;
+    }/atom?${params.toString()}`;
     break;
   case 'ical':
     window.location.href = `https://${

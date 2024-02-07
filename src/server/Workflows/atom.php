@@ -65,34 +65,32 @@ $feed->setTitle($title);
 $feed->setDescription(
     'Live updating feed of athletics information from Blackbaud'
 );
-$feed->setAtomLink(str_replace('/rss?', '?', $url . '&mode=edit'), 'via');
+$feed->setAtomLink(str_replace('/atom?', '?', $url . '&mode=edit'), 'via');
 $feed->setAtomLink($url, 'self');
 
 $updated = null;
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
         $event = $feed->createNewItem();
-        $event->addElement('updated', $item->getLastModified());
-        $event->setDate($item->getDate());
-        $event->setAuthor($item->getTeamName());
+        $event->setDate($item->getLastModified());
+        $event->addElement('published', $item->getDate('c'));
+        $event->addElement(
+            'rights',
+            $item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()
+        );
+        $event->setAuthor($item->getTeamName() . ' AUTHOR'); // debugging output for Carousel
+        $event->addElement('category', null, [
+            'term' => $item->getTeamName(),
+            'label' => $item->getTeamName() . ' LABEL', // debugging output for Carousel
+        ]);
         $event->setDescription(htmlentities($item->getOpponentName()));
 
         // combining score/time and outcome/location in one field until Carousel can parse the copyright field
         $event->setTitle(
-            $item->isFuture()
-                ? $item->getStart() .
-                    (empty($item->getHomeOrAway())
-                        ? ''
-                        : ' (' . $item->getHomeOrAway() . ')')
-                : $item->getScore() .
-                    (empty($item->getOutcome())
-                        ? ''
-                        : '    (' . $item->getOutcome() . ')')
+            $item->isFuture() ? $item->getStart() : $item->getScore()
         );
         $event->setContent(
-            empty($item->isFuture())
-                ? $item->getHomeOrAway()
-                : $item->getOutcome()
+            $item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()
         );
         $event->setId($item->getUuid());
 

@@ -69,11 +69,12 @@ $feed->setAtomLink(str_replace('/rss?', '?', $url . '&mode=edit'), 'via');
 $feed->setAtomLink($url, 'self');
 $feed->setLink($url);
 
+$updated = null;
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
         $event = $feed->createNewItem();
-        $event->setDate($item->getDate('r'));
-        $event->addElement('pubDate', $item->getDate('r'));
+        $event->setDate($item->getDate());
+        //$event->addElement('pubDate', $item->getLastModified());
         $event->addElement('category', $item->getTeamName());
         $event->setDescription(htmlentities($item->getOpponentName()));
 
@@ -90,16 +91,20 @@ foreach ($schedule->items as $item) {
                         : '    (' . $item->getOutcome() . ')')
         );
         $event->addElement(
-            'copyright',
-            empty($item->isFuture())
-                ? $item->getHomeOrAway()
-                : $item->getOutcome()
+            'rights',
+            ($item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()) .
+                ' COPYRIGHT' // debugging output for Carousel
         );
         $event->setId($item->getUuid());
 
         $feed->addItem($event);
+
+        if (!$updated || $updated < $item->getLastModified()) {
+            $updated = $item->getLastModified();
+        }
     }
 }
+$feed->setDate($updated);
 
 //header('Content-Type: application/rss+xml');
 header('Content-Type: text/xml');
