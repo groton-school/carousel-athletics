@@ -1,6 +1,6 @@
 <?php
 
-use FeedWriter\RSS2;
+use FeedWriter\ATOM;
 use GrotonSchool\AthleticsSchedule\Blackbaud\Schedule;
 use GrotonSchool\AthleticsSchedule\Blackbaud\SKY;
 use GrotonSchool\AthleticsSchedule\Blackbaud\Team;
@@ -59,7 +59,7 @@ switch ($title_position) {
         $title = $baseTitle;
 }
 
-$feed = new RSS2();
+$feed = new ATOM();
 $url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $feed->setTitle($title);
 $feed->setDescription(
@@ -67,14 +67,14 @@ $feed->setDescription(
 );
 $feed->setAtomLink(str_replace('/rss?', '?', $url . '&mode=edit'), 'via');
 $feed->setAtomLink($url, 'self');
-$feed->setLink($url);
 
+$updated = null;
 foreach ($schedule->items as $item) {
     if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
         $event = $feed->createNewItem();
-        $event->setDate($item->getDate('r'));
-        $event->addElement('pubDate', $item->getDate('r'));
-        $event->addElement('category', $item->getTeamName());
+        $event->addElement('updated', $item->getLastModified());
+        $event->setDate($item->getDate());
+        $event->setAuthor($item->getTeamName());
         $event->setDescription(htmlentities($item->getOpponentName()));
 
         // combining score/time and outcome/location in one field until Carousel can parse the copyright field
@@ -89,8 +89,7 @@ foreach ($schedule->items as $item) {
                         ? ''
                         : '    (' . $item->getOutcome() . ')')
         );
-        $event->addElement(
-            'copyright',
+        $event->setContent(
             empty($item->isFuture())
                 ? $item->getHomeOrAway()
                 : $item->getOutcome()
@@ -98,7 +97,12 @@ foreach ($schedule->items as $item) {
         $event->setId($item->getUuid());
 
         $feed->addItem($event);
+
+        if (!$updated || $updated < $item->getLastModified()) {
+            $updated = $item->getLastModified();
+        }
     }
+    $feed->setDate($updated);
 }
 
 //header('Content-Type: application/rss+xml');

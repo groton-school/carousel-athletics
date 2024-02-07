@@ -19,6 +19,14 @@ class ScheduleItem implements JsonSerializable
         $this->data = $data;
     }
 
+    public function getUuid(): string
+    {
+        // return "faux" URL to API endpoint for schedule item
+        return SKY::api()->getBaseApiUrl() .
+            '/school/v1/athletics/schedules/' .
+            $this->data['id'];
+    }
+
     public function isFuture(): bool
     {
         if ($this->future === null) {
@@ -56,6 +64,11 @@ class ScheduleItem implements JsonSerializable
                     'g:i A'
                 )
         ))->format($format);
+    }
+
+    public function getLastModified($format = 'c'): string
+    {
+        return (new DateTime($this->data['last_modified']))->format($format);
     }
 
     public function getHomeOrAway(): string
