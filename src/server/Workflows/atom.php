@@ -33,7 +33,7 @@ $title_position = extractParam('title_position');
 $hide_scoreless = extractParam(
     'hide_scoreless',
     false,
-    fn ($val) => $val == 'true'
+    fn($val) => $val == 'true'
 );
 $tzid = extractParam('tzid', 'America/New_York');
 $per_page = extractParam('per_page');
@@ -78,10 +78,10 @@ foreach ($schedule->items as $item) {
             'rights',
             $item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()
         );
-        $event->setAuthor($item->getTeamName() . ' AUTHOR'); // debugging output for Carousel
+        $event->setAuthor($item->getTeamName());
         $event->addElement('category', null, [
             'term' => $item->getTeamName(),
-            'label' => $item->getTeamName() . ' LABEL', // debugging output for Carousel
+            'label' => $item->getTeamName(),
         ]);
         $event->setDescription(htmlentities($item->getOpponentName()));
 
@@ -100,7 +100,7 @@ foreach ($schedule->items as $item) {
             $updated = $item->getLastModified();
         }
     }
-    $feed->setDate($updated);
+    $feed->setDate($updated ?? new DateTime());
 }
 
 //header('Content-Type: application/rss+xml');

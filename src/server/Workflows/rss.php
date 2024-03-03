@@ -33,7 +33,7 @@ $title_position = extractParam('title_position');
 $hide_scoreless = extractParam(
     'hide_scoreless',
     false,
-    fn ($val) => $val == 'true'
+    fn($val) => $val == 'true'
 );
 $tzid = extractParam('tzid', 'America/New_York');
 $per_page = extractParam('per_page');
@@ -92,8 +92,7 @@ foreach ($schedule->items as $item) {
         );
         $event->addElement(
             'rights',
-            ($item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()) .
-                ' COPYRIGHT' // debugging output for Carousel
+            $item->isFuture() ? $item->getHomeOrAway() : $item->getOutcome()
         );
         $event->setId($item->getUuid());
 
