@@ -11,7 +11,7 @@
   "require": {
     "ext-curl": "*",
     "ext-memcached": "*",
-    "battis/lazy-secrets": "dev-main",
+    "battis/lazy-secrets": "^1.1",
     "google/apiclient": "^2.15",
     "google/appengine-php-sdk": "^2.2",
     "groton-school/oauth2-blackbaudsky": "^0.2.2",
