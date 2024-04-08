@@ -71,12 +71,15 @@ $feed->setLink($url);
 
 $updated = null;
 foreach ($schedule->items as $item) {
-    if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
+    if (
+        !$item->isRescheduled() &&
+        (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore())))
+    ) {
         $event = $feed->createNewItem();
         $event->setDate($item->getDate());
         //$event->addElement('pubDate', $item->getLastModified());
         $event->addElement('category', $item->getTeamName());
-        $event->setDescription(htmlentities($item->getOpponentName()));
+        $event->setDescription(htmlentities($item->getTitle()));
 
         // combining score/time and outcome/location in one field until Carousel can parse the copyright field
         $event->setTitle(

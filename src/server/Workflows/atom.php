@@ -70,7 +70,10 @@ $feed->setAtomLink($url, 'self');
 
 $updated = null;
 foreach ($schedule->items as $item) {
-    if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
+    if (
+        !$item->isRescheduled() &&
+        (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore())))
+    ) {
         $event = $feed->createNewItem();
         $event->setDate($item->getLastModified());
         $event->addElement('published', $item->getDate('c'));
@@ -83,7 +86,7 @@ foreach ($schedule->items as $item) {
             'term' => $item->getTeamName(),
             'label' => $item->getTeamName(),
         ]);
-        $event->setDescription(htmlentities($item->getOpponentName()));
+        $event->setDescription(htmlentities($item->getTitle()));
 
         // combining score/time and outcome/location in one field until Carousel can parse the copyright field
         $event->setTitle(

@@ -10,6 +10,8 @@ class ScheduleItem implements JsonSerializable
     public const OPPONENTS = 'opponents';
     public const TEAM_ID = 'team_id';
     public const GAME_TIME = 'game_time';
+    public const TITLE = 'title';
+    public const RESCHEDULED = 'rescheduled';
 
     private array $data;
     private $future = null;
@@ -33,6 +35,11 @@ class ScheduleItem implements JsonSerializable
             $this->future = strtotime($this->getEnd('c')) > time();
         }
         return $this->future;
+    }
+
+    public function isRescheduled(): bool
+    {
+        return boolval($this->data[self::RESCHEDULED]);
     }
 
     public function getDate($format = 'F j'): string
@@ -81,19 +88,19 @@ class ScheduleItem implements JsonSerializable
         return Team::get($this->data[self::TEAM_ID])->getName();
     }
 
-    public function getOpponentName(): string
+    public function getTitle(): string
     {
-        if (empty($this->data[self::OPPONENTS])) {
-            return $this->data['title'];
+        if (!empty($this->data[self::TITLE])) {
+            return $this->data[self::TITLE];
         } else {
             return join(
                 ', ',
                 array_filter(
                     array_map(
-                        fn ($o) => empty($o['name']) ? '' : $o['name'],
+                        fn($o) => empty($o['name']) ? '' : $o['name'],
                         $this->data[self::OPPONENTS]
                     ),
-                    fn ($n) => !empty($n)
+                    fn($n) => !empty($n)
                 )
             );
         }
@@ -108,10 +115,10 @@ class ScheduleItem implements JsonSerializable
                 ', ',
                 array_filter(
                     array_map(
-                        fn ($o) => $o['score'],
+                        fn($o) => $o['score'],
                         $this->data[self::OPPONENTS]
                     ),
-                    fn ($s) => !empty($s)
+                    fn($s) => !empty($s)
                 )
             );
         }
@@ -127,10 +134,10 @@ class ScheduleItem implements JsonSerializable
                     ', ',
                     array_filter(
                         array_map(
-                            fn ($o) => $o['win_loss'],
+                            fn($o) => $o['win_loss'],
                             $this->data[self::OPPONENTS]
                         ),
-                        fn ($o) => !empty($o)
+                        fn($o) => !empty($o)
                     )
                 );
             }
@@ -144,7 +151,7 @@ class ScheduleItem implements JsonSerializable
         $json = $this->data;
         $json['is_future'] = $this->isFuture();
         $json['team'] = Team::get($this->data[self::TEAM_ID]);
-        $json['opponent'] = $this->getOpponentName();
+        $json['opponent'] = $this->getTitle();
         $json['score'] = $this->getScore();
         $json['outcome'] = $this->getOutcome();
         return $json;

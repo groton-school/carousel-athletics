@@ -33,7 +33,7 @@ $title_position = extractParam('title_position');
 $hide_scoreless = extractParam(
     'hide_scoreless',
     false,
-    fn ($val) => $val == 'true'
+    fn($val) => $val == 'true'
 );
 $tzid = extractParam('tzid', 'America/New_York');
 $offset = extractParam('offset');
@@ -77,7 +77,10 @@ $ics->setUrl(
 );
 
 foreach ($schedule->items as $item) {
-    if (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore()))) {
+    if (
+        !$item->isRescheduled() &&
+        (!$hide_scoreless || ($hide_scoreless && !empty($item->getScore())))
+    ) {
         $event = $ics->newVevent();
         $event->setDtstart(
             $offset
@@ -86,7 +89,7 @@ foreach ($schedule->items as $item) {
         );
         $event->setSummary($item->getDate());
         $event->setDescription($item->getTeamName());
-        $event->setLocation($item->getOpponentName());
+        $event->setLocation($item->getTitle());
         $event->setComment(
             $item->isFuture() ? $item->getStart() : $item->getScore()
         );
