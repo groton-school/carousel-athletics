@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import options from './options.mjs';
+import options from './options.json' assert {type: 'json'};
 import gcloud from '@battis/partly-gcloudy';
 import cli from '@battis/qui-cli';
 
