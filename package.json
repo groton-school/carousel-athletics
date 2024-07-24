@@ -7,7 +7,7 @@
     "build": "webpack",
     "deploy": "run-s deploy:*",
     "deploy:build": "npm run build",
-    "deploy:publish": "./bin/deploy.mjs",
+    "deploy:publish": "bin/deploy.mjs",
     "logs": "./bin/logs.mjs"
   },
   "author": {
