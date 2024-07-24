@@ -48,6 +48,7 @@ class Schedule implements JsonSerializable
     public static function get($params): Schedule
     {
         $schedule = new Schedule($params);
+        Team::getAll($params);
 
         $hide_scoreless = $schedule->extractParam(
             'hide_scoreless',
@@ -129,5 +130,10 @@ class Schedule implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return $this->items;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
     }
 }

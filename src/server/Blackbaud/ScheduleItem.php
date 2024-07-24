@@ -97,10 +97,10 @@ class ScheduleItem implements JsonSerializable
                 ', ',
                 array_filter(
                     array_map(
-                        fn($o) => empty($o['name']) ? '' : $o['name'],
-                        $this->data[self::OPPONENTS]
+                        fn ($o) => empty($o['name']) ? '' : $o['name'],
+                        $this->data[self::OPPONENTS] ?? []
                     ),
-                    fn($n) => !empty($n)
+                    fn ($n) => !empty($n)
                 )
             );
         }
@@ -115,10 +115,10 @@ class ScheduleItem implements JsonSerializable
                 ', ',
                 array_filter(
                     array_map(
-                        fn($o) => $o['score'],
-                        $this->data[self::OPPONENTS]
+                        fn ($o) => $o['score'],
+                        $this->data[self::OPPONENTS] ?? []
                     ),
-                    fn($s) => !empty($s)
+                    fn ($s) => !empty($s)
                 )
             );
         }
@@ -134,10 +134,10 @@ class ScheduleItem implements JsonSerializable
                     ', ',
                     array_filter(
                         array_map(
-                            fn($o) => $o['win_loss'],
-                            $this->data[self::OPPONENTS]
+                            fn ($o) => $o['win_loss'],
+                            $this->data[self::OPPONENTS] ?? []
                         ),
-                        fn($o) => !empty($o)
+                        fn ($o) => !empty($o)
                     )
                 );
             }
