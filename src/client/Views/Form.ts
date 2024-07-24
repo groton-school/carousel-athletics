@@ -2,10 +2,11 @@ import Authorize from '../Authorize';
 import Deauthorize from '../Deauthorize';
 import * as Options from '../Options';
 import Team from '../SKY/Team';
+import './styles.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default async function Form() {
-  if (await (await fetch(`${process.env.URL}/ready`)).json()) {
+  if ((await (await fetch(`${process.env.URL}/ready`)).json()).ready) {
     Options.add({ title: 'Deauthorize', handler: Deauthorize });
 
     const teams = await (await fetch(`${process.env.URL}/teams`)).json();
