@@ -17,7 +17,7 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "@battis/eslint-config": "latest",
-    "@battis/partly-gcloudy": "^0.4.4",
+    "@battis/partly-gcloudy": "^0.6.0",
     "@battis/prettier-config": "latest",
     "@battis/qui-cli": "^0.3.9",
     "@battis/webpack": "latest",
