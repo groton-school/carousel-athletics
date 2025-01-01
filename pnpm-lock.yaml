@@ -19,14 +19,14 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0
       '@battis/prettier-config':
-        specifier: ^1.5.5
-        version: 1.5.5(typescript@5.7.2)
+        specifier: ^1.5.6
+        version: 1.5.6(typescript@5.7.2)
       '@battis/qui-cli':
         specifier: ^0.8.5
         version: 0.8.5
       '@battis/webpack':
         specifier: latest
-        version: 2.0.1(app-root-path@3.1.0)(copy-webpack-plugin@12.0.2(webpack@5.97.1))(css-loader@7.1.2(webpack@5.97.1))(css-minimizer-webpack-plugin@7.0.0(webpack@5.97.1))(dotenv-webpack@8.1.0(webpack@5.97.1))(favicons-webpack-plugin@6.0.1(favicons@7.2.0)(webpack@5.97.1))(favicons@7.2.0)(file-loader@6.2.0(webpack@5.97.1))(html-webpack-plugin@5.6.3(webpack@5.97.1))(mini-css-extract-plugin@2.9.2(webpack@5.97.1))(postcss-loader@8.1.1(postcss@8.4.49)(typescript@5.7.2)(webpack@5.97.1))(postcss-preset-env@10.1.1(postcss@8.4.49))(postcss@8.4.49)(raw-loader@4.0.2(webpack@5.97.1))(sass-loader@16.0.4(sass@1.82.0)(webpack@5.97.1))(sass@1.82.0)(style-loader@4.0.0(webpack@5.97.1))(terser-webpack-plugin@5.3.10(webpack@5.97.1))(ts-loader@9.5.1(typescript@5.7.2)(webpack@5.97.1))(typescript@5.7.2)(url-loader@4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1))(webpack-cli@5.1.4)(webpack-dev-server@5.1.0)(webpack@5.97.1)
+        version: 2.0.2(app-root-path@3.1.0)(copy-webpack-plugin@12.0.2(webpack@5.97.1))(css-loader@7.1.2(webpack@5.97.1))(css-minimizer-webpack-plugin@7.0.0(webpack@5.97.1))(dotenv-webpack@8.1.0(webpack@5.97.1))(favicons-webpack-plugin@6.0.1(favicons@7.2.0)(webpack@5.97.1))(favicons@7.2.0)(file-loader@6.2.0(webpack@5.97.1))(html-webpack-plugin@5.6.3(webpack@5.97.1))(mini-css-extract-plugin@2.9.2(webpack@5.97.1))(postcss-loader@8.1.1(postcss@8.4.49)(typescript@5.7.2)(webpack@5.97.1))(postcss-preset-env@10.1.1(postcss@8.4.49))(postcss@8.4.49)(raw-loader@4.0.2(webpack@5.97.1))(sass-loader@16.0.4(sass@1.82.0)(webpack@5.97.1))(sass@1.82.0)(style-loader@4.0.0(webpack@5.97.1))(terser-webpack-plugin@5.3.10(webpack@5.97.1))(ts-loader@9.5.1(typescript@5.7.2)(webpack@5.97.1))(typescript@5.7.2)(url-loader@4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1))(webpack-cli@5.1.4)(webpack-dev-server@5.1.0)(webpack@5.97.1)
       '@types/node':
         specifier: ^22.10.2
         version: 22.10.2
@@ -116,8 +116,8 @@ packages:
     resolution: {integrity: sha512-BndLD/Z/vjxEmg50Osc3FiZnMLM5+Jxgh5hMhvpg4UJ6dMI1/Sms56lVlg3ie4Hz5dAP23o82TIYGVzE30QOog==}
     engines: {node: '>=12.17'}
 
-  '@battis/prettier-config@1.5.5':
-    resolution: {integrity: sha512-g+1W+5Tjmeo0U7vWu0JCl8EYsuUV8StaUSkby66bN6VzWv21HpZYtSzV4MgzLSiRvXEuKAGGUN98kh1MXSjwGQ==}
+  '@battis/prettier-config@1.5.6':
+    resolution: {integrity: sha512-YplRYmOlg49D50kCIO3AemjEmtLif1YZcM01TH0Skgp46IggDcUGZr4BkllUvMFRIlgVPOSPm3po/b/z3ohiuA==}
     engines: {node: '>=12.17'}
 
   '@battis/qui-cli.colors@0.8.2':
@@ -155,8 +155,8 @@ packages:
   '@battis/typescript-tricks@0.4.3':
     resolution: {integrity: sha512-7uHRia+kAWWXbTJFMjax3XXmTSIAAnqegLFONN9dAjMv1T5dqRTj+adkKcAlUrZBBQq3A2f0pZz8OFWNwXYTOg==}
 
-  '@battis/webpack@2.0.1':
-    resolution: {integrity: sha512-iEPFRrZ8HEnkXvn5N7q35RdOvQycRydbyio/fILis3JVuZfQcktYKGA2OsXg/QM5J9ISolQzwbJlA9MH8nkt3w==}
+  '@battis/webpack@2.0.2':
+    resolution: {integrity: sha512-4AJNY+vbhb5ZjQZwqxxZVQEInDaGoPnOx5w4a54VeNpbdlbQ1W+7aLOPPhFy/oKtM8zXvjXbXsY2T37aNI5taA==}
     engines: {node: '>=12.17'}
     peerDependencies:
       add-peer-dependencies: '*'
@@ -4151,7 +4151,7 @@ snapshots:
 
   '@babel/generator@7.17.7':
     dependencies:
-      '@babel/types': 7.17.0
+      '@babel/types': 7.26.3
       jsesc: 2.5.2
       source-map: 0.5.7
 
@@ -4245,7 +4245,7 @@ snapshots:
       lodash: 4.17.21
       rword: 3.2.1
 
-  '@battis/prettier-config@1.5.5(typescript@5.7.2)':
+  '@battis/prettier-config@1.5.6(typescript@5.7.2)':
     dependencies:
       '@prettier/plugin-xml': 2.2.0
       '@trivago/prettier-plugin-sort-imports': 4.3.0(prettier@3.4.2)
@@ -4341,7 +4341,7 @@ snapshots:
 
   '@battis/typescript-tricks@0.4.3': {}
 
-  '@battis/webpack@2.0.1(app-root-path@3.1.0)(copy-webpack-plugin@12.0.2(webpack@5.97.1))(css-loader@7.1.2(webpack@5.97.1))(css-minimizer-webpack-plugin@7.0.0(webpack@5.97.1))(dotenv-webpack@8.1.0(webpack@5.97.1))(favicons-webpack-plugin@6.0.1(favicons@7.2.0)(webpack@5.97.1))(favicons@7.2.0)(file-loader@6.2.0(webpack@5.97.1))(html-webpack-plugin@5.6.3(webpack@5.97.1))(mini-css-extract-plugin@2.9.2(webpack@5.97.1))(postcss-loader@8.1.1(postcss@8.4.49)(typescript@5.7.2)(webpack@5.97.1))(postcss-preset-env@10.1.1(postcss@8.4.49))(postcss@8.4.49)(raw-loader@4.0.2(webpack@5.97.1))(sass-loader@16.0.4(sass@1.82.0)(webpack@5.97.1))(sass@1.82.0)(style-loader@4.0.0(webpack@5.97.1))(terser-webpack-plugin@5.3.10(webpack@5.97.1))(ts-loader@9.5.1(typescript@5.7.2)(webpack@5.97.1))(typescript@5.7.2)(url-loader@4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1))(webpack-cli@5.1.4)(webpack-dev-server@5.1.0)(webpack@5.97.1)':
+  '@battis/webpack@2.0.2(app-root-path@3.1.0)(copy-webpack-plugin@12.0.2(webpack@5.97.1))(css-loader@7.1.2(webpack@5.97.1))(css-minimizer-webpack-plugin@7.0.0(webpack@5.97.1))(dotenv-webpack@8.1.0(webpack@5.97.1))(favicons-webpack-plugin@6.0.1(favicons@7.2.0)(webpack@5.97.1))(favicons@7.2.0)(file-loader@6.2.0(webpack@5.97.1))(html-webpack-plugin@5.6.3(webpack@5.97.1))(mini-css-extract-plugin@2.9.2(webpack@5.97.1))(postcss-loader@8.1.1(postcss@8.4.49)(typescript@5.7.2)(webpack@5.97.1))(postcss-preset-env@10.1.1(postcss@8.4.49))(postcss@8.4.49)(raw-loader@4.0.2(webpack@5.97.1))(sass-loader@16.0.4(sass@1.82.0)(webpack@5.97.1))(sass@1.82.0)(style-loader@4.0.0(webpack@5.97.1))(terser-webpack-plugin@5.3.10(webpack@5.97.1))(ts-loader@9.5.1(typescript@5.7.2)(webpack@5.97.1))(typescript@5.7.2)(url-loader@4.1.1(file-loader@6.2.0(webpack@5.97.1))(webpack@5.97.1))(webpack-cli@5.1.4)(webpack-dev-server@5.1.0)(webpack@5.97.1)':
     dependencies:
       app-root-path: 3.1.0
       copy-webpack-plugin: 12.0.2(webpack@5.97.1)
