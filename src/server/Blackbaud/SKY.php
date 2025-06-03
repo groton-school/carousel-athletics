@@ -73,6 +73,7 @@ class SKY
         $get,
         $interactive = true
     ) {
+        // FIXME race condition when simultaneously refreshing access token
         $cachedToken = self::secrets()->get(self::Bb_TOKEN);
         $token = $cachedToken ? new AccessToken($cachedToken) : null;
 
