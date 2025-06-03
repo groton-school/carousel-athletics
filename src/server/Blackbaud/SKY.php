@@ -31,6 +31,8 @@ class SKY
     private static ?BlackbaudSKY $api = null;
     private static ?Cache $secrets = null;
 
+    private const SEMAPHORE = 'semaphore';
+
     public static function api()
     {
         if (!self::$api) {
@@ -74,6 +76,10 @@ class SKY
         $interactive = true
     ) {
         // FIXME race condition when simultaneously refreshing access token
+        while (self::cache()->get(self::SEMAPHORE)) {
+            usleep(100);
+        }
+        self::cache()->set(self::SEMAPHORE, 'mine', 30);
         $cachedToken = self::secrets()->get(self::Bb_TOKEN);
         $token = $cachedToken ? new AccessToken($cachedToken) : null;
 
@@ -126,6 +132,7 @@ class SKY
         } else {
             self::api()->setAccessToken($token);
         }
+        self::cache()->delete(self::SEMAPHORE);
 
         return $token;
     }
