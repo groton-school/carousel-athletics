@@ -1,8 +1,10 @@
-module.exports = require('@battis/webpack/ts/spa')({
-  root: __dirname,
+import bundle from '@battis/webpack';
+
+export default bundle.fromTS.toSPA({
+  root: import.meta.dirname,
   appName: 'Carousel - Athletics',
   entry: './src/client/index.ts',
   template: 'template',
-  build: 'public',
+  output: { path: 'public' },
   production: true
 });
