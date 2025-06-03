@@ -30,6 +30,9 @@ importers:
       '@battis/qui-cli.env':
         specifier: ^2.0.4
         version: 2.0.4(@battis/qui-cli.plugin@2.3.1)(@battis/qui-cli.root@2.0.2(@battis/qui-cli.plugin@2.3.1))
+      '@battis/qui-cli.log':
+        specifier: ^2.1.0
+        version: 2.1.0(@battis/qui-cli.colors@2.0.1(@battis/qui-cli.plugin@2.3.1))(@battis/qui-cli.plugin@2.3.1)(@battis/qui-cli.root@2.0.2(@battis/qui-cli.plugin@2.3.1))
       '@battis/qui-cli.plugin':
         specifier: ^2.3.1
         version: 2.3.1

@@ -2,6 +2,7 @@ import gcloud from '@battis/partly-gcloudy';
 import { Colors } from '@battis/qui-cli.colors';
 import { Core } from '@battis/qui-cli.core';
 import '@battis/qui-cli.env';
+import { Log } from '@battis/qui-cli.log';
 import * as Plugin from '@battis/qui-cli.plugin';
 import { Root } from '@battis/qui-cli.root';
 import { Validators } from '@battis/qui-cli.validators';
@@ -137,6 +138,10 @@ async function run() {
       name: 'BLACKBAUD_REDIRECT_URL',
       value: blackbaud.redirectUrl
     });
+
+    Log.info(
+      `Visit ${Colors.url(`https://${appEngine.defaultHostname}`)} to authorize ${name} to access Blackbaud APIs`
+    );
   }
 }
 
