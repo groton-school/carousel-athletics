@@ -1,10 +1,17 @@
 <!--- BEGIN HEADER -->
-
 # Changelog
 
 All notable changes to this project will be documented in this file.
-
 <!--- END HEADER -->
+
+## [0.2.4](https://github.com/groton-school/carousel-athletics/compare/v0.2.3...v0.2.4) (2025-06-03)
+
+### Bug Fixes
+
+* Use a semaphore to avoid race condition when renewing access token [#25](https://github.com/groton-school/carousel-athletics/issues/25) ([fe6938](https://github.com/groton-school/carousel-athletics/commit/fe6938b9c664b9bc97715bb9e94b3af747a75a21))
+
+
+---
 
 ## [0.2.3](https://github.com/groton-school/carousel-athletics/compare/v0.2.2...v0.2.3) (2024-08-22)
 
