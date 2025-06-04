@@ -75,7 +75,6 @@ class SKY
         $get,
         $interactive = true
     ) {
-        // FIXME race condition when simultaneously refreshing access token
         while (self::cache()->get(self::SEMAPHORE)) {
             usleep(100);
         }
