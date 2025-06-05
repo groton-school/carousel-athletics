@@ -5,6 +5,7 @@ namespace GrotonSchool\AthleticsSchedule\Blackbaud;
 use Exception;
 use Google\AppEngine\Api\Memcache\Memcached;
 use Battis\LazySecrets\Cache;
+use Google\Cloud\Logging\LoggingClient;
 use League\OAuth2\Client\Token\AccessToken;
 use GrotonSchool\OAuth2\Client\Provider\BlackbaudSKY;
 
@@ -122,8 +123,14 @@ class SKY
             }
         } elseif ($token->hasExpired()) {
             // use refresh token to get new Bb access token
+            $refreshToken = $token->getRefreshToken();
+            $logger = LoggingClient::psrBatchLogger('SKY');
+            $logger->debug('Token has expired', ['token' => $token, 'refresh_token' => $refreshToken]);
+            if (!$refreshToken) {
+                throw new Exception('No refresh token found');
+            }
             $newToken = self::api()->getAccessToken(self::REFRESH_TOKEN, [
-                self::REFRESH_TOKEN => $token->getRefreshToken(),
+                self::REFRESH_TOKEN => $refreshToken,
             ]);
             // FIXME need to handle _not_ being able to refresh!
             self::secrets()->set(self::Bb_TOKEN, $newToken, 1);
