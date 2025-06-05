@@ -15,6 +15,7 @@
         "battis/lazy-secrets": "^1.1",
         "google/apiclient": "^2.15",
         "google/appengine-php-sdk": "^2.2",
+        "google/cloud-logging": "^1.32",
         "groton-school/oauth2-blackbaudsky": "^0.2.2",
         "kigkonsult/icalcreator": "^2.41",
         "mibe/feedwriter": "^1.1",
