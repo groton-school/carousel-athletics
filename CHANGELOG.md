@@ -4,6 +4,21 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.3.0](https://github.com/groton-school/carousel-athletics/compare/v0.2.4...v0.3.0) (2025-08-01)
+
+### Features
+
+* Add favicon ([415dd6](https://github.com/groton-school/carousel-athletics/commit/415dd6b366b24abbadd93f02f66835e74287196e))
+* Deploy PHP 8.3. runtime ([d71bba](https://github.com/groton-school/carousel-athletics/commit/d71bba1e2fbb5211ea6304f6b4141c68d101c1af))
+
+### Bug Fixes
+
+* Reduce Google App Engine resource consumption ([f02630](https://github.com/groton-school/carousel-athletics/commit/f02630ddc9e3093a2c513596d70873635784778e))
+* Run all instances in same session to preserve token integrity ([a1b20a](https://github.com/groton-school/carousel-athletics/commit/a1b20a927961afed49aab438ef037ead815ea7af))
+
+
+---
+
 ## [0.2.4](https://github.com/groton-school/carousel-athletics/compare/v0.2.3...v0.2.4) (2025-06-03)
 
 ### Bug Fixes
