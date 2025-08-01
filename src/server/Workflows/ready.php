@@ -4,6 +4,7 @@ use GrotonSchool\AthleticsSchedule\Blackbaud\SKY;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+session_id('shared');
 session_start();
 header('Content-Type', 'application/json');
 echo json_encode([

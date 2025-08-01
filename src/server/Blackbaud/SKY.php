@@ -32,7 +32,7 @@ class SKY
     private static ?BlackbaudSKY $api = null;
     private static ?Cache $secrets = null;
 
-    private const SEMAPHORE = 'semaphore';
+    private const MUTEX = 'mutex';
 
     public static function api()
     {
@@ -76,10 +76,16 @@ class SKY
         $get,
         $interactive = true
     ) {
-        while (self::cache()->get(self::SEMAPHORE)) {
+        $logger = LoggingClient::psrBatchLogger('SKY');
+        $id = random_bytes(8);
+        $logger->debug("Thread $id checking mutex");
+        while (isset($_SESSION[self::MUTEX])) {
+            $logger->debug("Thread $id waiting for mutex");
             usleep(100);
         }
-        self::cache()->set(self::SEMAPHORE, 'mine', 30);
+        $logger->debug("Thread $id sees mutex is available");
+        $_SESSION[self::MUTEX] = true;
+        $logger->debug("Thread $id claimed for mutex");
         $cachedToken = self::secrets()->get(self::Bb_TOKEN);
         $token = $cachedToken ? new AccessToken($cachedToken) : null;
 
@@ -124,7 +130,6 @@ class SKY
         } elseif ($token->hasExpired()) {
             // use refresh token to get new Bb access token
             $refreshToken = $token->getRefreshToken();
-            $logger = LoggingClient::psrBatchLogger('SKY');
             $logger->debug('Token has expired', ['token' => $token, 'refresh_token' => $refreshToken]);
             if (!$refreshToken) {
                 throw new Exception('No refresh token found');
@@ -138,7 +143,8 @@ class SKY
         } else {
             self::api()->setAccessToken($token);
         }
-        self::cache()->delete(self::SEMAPHORE);
+        unset($_SESSION[self::MUTEX]);
+        $logger->debug("Thread $id released mutex");
 
         return $token;
     }

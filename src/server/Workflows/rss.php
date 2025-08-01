@@ -7,6 +7,7 @@ use GrotonSchool\AthleticsSchedule\Blackbaud\Team;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+session_id('shared');
 session_start();
 date_default_timezone_set('America/New_York');
 
@@ -33,7 +34,7 @@ $title_position = extractParam('title_position');
 $hide_scoreless = extractParam(
     'hide_scoreless',
     false,
-    fn($val) => $val == 'true'
+    fn ($val) => $val == 'true'
 );
 $tzid = extractParam('tzid', 'America/New_York');
 $per_page = extractParam('per_page');
@@ -85,13 +86,13 @@ foreach ($schedule->items as $item) {
         $event->setTitle(
             $item->isFuture()
                 ? $item->getStart() .
-                    (empty($item->getHomeOrAway())
-                        ? ''
-                        : ' (' . $item->getHomeOrAway() . ')')
+                (empty($item->getHomeOrAway())
+                    ? ''
+                    : ' (' . $item->getHomeOrAway() . ')')
                 : $item->getScore() .
-                    (empty($item->getOutcome())
-                        ? ''
-                        : '    (' . $item->getOutcome() . ')')
+                (empty($item->getOutcome())
+                    ? ''
+                    : '    (' . $item->getOutcome() . ')')
         );
         $event->addElement(
             'rights',

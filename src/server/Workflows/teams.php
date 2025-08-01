@@ -5,6 +5,7 @@ use GrotonSchool\AthleticsSchedule\Blackbaud\Team;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+session_id('shared');
 session_start();
 if (!SKY::isReady($_SERVER, $_SESSION, $_GET)) {
     echo json_encode(['error' => 'not authenticated']);

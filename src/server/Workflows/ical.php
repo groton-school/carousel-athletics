@@ -7,6 +7,7 @@ use Kigkonsult\Icalcreator\Vcalendar;
 
 require __DIR__ . '/../../../vendor/autoload.php';
 
+session_id('shared');
 session_start();
 date_default_timezone_set('America/New_York');
 
@@ -33,7 +34,7 @@ $title_position = extractParam('title_position');
 $hide_scoreless = extractParam(
     'hide_scoreless',
     false,
-    fn($val) => $val == 'true'
+    fn ($val) => $val == 'true'
 );
 $tzid = extractParam('tzid', 'America/New_York');
 $offset = extractParam('offset');
