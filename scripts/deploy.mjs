@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import gcloud from '@battis/partly-gcloudy';
 import { confirm, input } from '@inquirer/prompts';
 import { Colors } from '@qui-cli/colors';

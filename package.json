@@ -11,7 +11,7 @@
     "build": "webpack",
     "deploy": "run-s deploy:*",
     "deploy:build": "npm run build",
-    "deploy:publish": "node ./scripts/deploy.mjs -v"
+    "deploy:publish": "op run --env-file .env --no-masking -- ./scripts/deploy.mjs -v"
   },
   "dependencies": {
     "bootstrap": "^5.3.8"
