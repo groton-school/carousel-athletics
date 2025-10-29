@@ -1,12 +1,12 @@
 import gcloud from '@battis/partly-gcloudy';
-import { Colors } from '@battis/qui-cli.colors';
-import { Core } from '@battis/qui-cli.core';
-import '@battis/qui-cli.env';
-import { Log } from '@battis/qui-cli.log';
-import * as Plugin from '@battis/qui-cli.plugin';
-import { Root } from '@battis/qui-cli.root';
-import { Validators } from '@battis/qui-cli.validators';
 import { confirm, input } from '@inquirer/prompts';
+import { Colors } from '@qui-cli/colors';
+import { Core } from '@qui-cli/core';
+import '@qui-cli/env';
+import { Log } from '@qui-cli/log';
+import * as Plugin from '@qui-cli/plugin';
+import { Root } from '@qui-cli/root';
+import { Validators } from '@qui-cli/validators';
 import path from 'node:path';
 
 let setup = false;
