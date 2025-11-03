@@ -134,7 +134,7 @@ class ScheduleItem implements JsonSerializable
                     ', ',
                     array_filter(
                         array_map(
-                            fn ($o) => $o['win_loss'],
+                            fn ($o) => $o['win_loss'] ?? '',
                             $this->data[self::OPPONENTS] ?? []
                         ),
                         fn ($o) => !empty($o)
