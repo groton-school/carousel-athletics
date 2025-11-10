@@ -190,6 +190,7 @@ async function run() {
       } --project=${projectId} --format=json`
     ).stdout
   );
+  await Env.set({ key: 'URL', value: app.status.url });
   Log.info(
     `${app.kind} ${Colors.value(app.metadata.name)} deployed to ${Colors.url(app.status.url)}`
   );
