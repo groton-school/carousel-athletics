@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 import gcloud from '@battis/partly-gcloudy';
-import { confirm, input } from '@inquirer/prompts';
+import { confirm, input, select } from '@inquirer/prompts';
 import { Colors } from '@qui-cli/colors';
 import { Core } from '@qui-cli/core';
-import '@qui-cli/env';
+import { Env } from '@qui-cli/env-1password';
 import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
 import { Root } from '@qui-cli/root';
+import { Shell } from '@qui-cli/shell';
 import { Validators } from '@qui-cli/validators';
 import path from 'node:path';
 
@@ -112,13 +113,50 @@ function init(args) {
 }
 
 async function run() {
-  const { appEngine } = await gcloud.batch.appEngineDeployAndCleanup({
-    retainVersions: 2
-  });
+  let projectId = await Env.get({ key: 'PROJECT' });
+  let region = await Env.get({ key: 'REGION' });
+  let email = await Env.get({ key: 'IDENTITY' });
+
   if (setup) {
-    await gcloud.secrets.enableAppEngineAccess();
+    const project = await gcloud.projects.create({
+      projectId,
+      reuseIfExists: true
+    });
+    projectId = project.projectId;
+    await Env.set({ key: 'PROJECT', value: projectId });
+    region = await select({
+      message: 'Which region would you like to deploy to?',
+      default: region,
+      choices: JSON.parse(
+        Shell.exec(
+          `gcloud run regions list --project=${projectId} --format=json`
+        ).stdout
+      ).map((r) => ({
+        name: `${r.locationId} (${r.displayName})`,
+        value: r.locationId
+      }))
+    });
+    await gcloud.services.enable(gcloud.services.API.CloudRunAdminAPI);
+    await gcloud.services.enable(gcloud.services.API.ArtifactRegistryAPI);
+
+    let identity;
+    if (email) {
+      identity = await gcloud.iam.serviceAccounts.describe({ email });
+    } else {
+      identity = await gcloud.iam.serviceAccounts.create({
+        name: 'Cloud Run Service Identity'
+      });
+    }
+    email = identity.email;
+    Env.set({ key: 'IDENTITY', value: email });
+    gcloud.iam.addPolicyBinding({
+      user: email,
+      userType: 'serviceAccount',
+      role: gcloud.iam.Role.SecretManager.SecretAccessor
+    });
+
     const blackbaud = await guideBlackbaudAppCreation({
-      hostname: appEngine.defaultHostname,
+      hostname: new URL(await Env.get({ key: 'URL' })).hostname,
       accessKey,
       clientId,
       clientSecret
@@ -140,11 +178,21 @@ async function run() {
       name: 'BLACKBAUD_REDIRECT_URL',
       value: blackbaud.redirectUrl
     });
-
-    Log.info(
-      `Visit ${Colors.url(`https://${appEngine.defaultHostname}`)} to authorize ${name} to access Blackbaud APIs`
-    );
   }
+  const app = JSON.parse(
+    Shell.exec(
+      `gcloud run deploy athletics --source . --service-account=${
+        email
+      } --region=${
+        region
+      } --allow-unauthenticated --base-image=php84 --automatic-updates --set-env-vars=GOOGLE_CLOUD_PROJECT=${
+        projectId
+      } --project=${projectId} --format=json`
+    ).stdout
+  );
+  Log.info(
+    `${app.kind} ${Colors.value(app.metadata.name)} deployed to ${Colors.url(app.status.url)}`
+  );
 }
 
 Root.configure({ root: path.dirname(import.meta.dirname) });

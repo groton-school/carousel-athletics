@@ -1,7 +1,7 @@
 *
 .DS_Store
-!/app.yaml
 !/composer.*
+!/index.php
 !/php.ini
 !/public
 !/src
