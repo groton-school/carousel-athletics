@@ -185,9 +185,7 @@ async function run() {
         email
       } --region=${
         region
-      } --allow-unauthenticated --base-image=php84 --automatic-updates --set-env-vars=GOOGLE_CLOUD_PROJECT=${
-        projectId
-      } --project=${projectId} --format=json`
+      } --allow-unauthenticated --base-image=php84 --automatic-updates --project="${projectId}" --format=json`
     ).stdout
   );
   await Env.set({ key: 'URL', value: app.status.url });
