@@ -1,6 +1,10 @@
+packages:
+  - 'packages/*'
+
 onlyBuiltDependencies:
-  - '@parcel/watcher'
   - gifsicle
   - jpegtran-bin
   - optipng-bin
   - sharp
+
+injectWorkspacePackages: true

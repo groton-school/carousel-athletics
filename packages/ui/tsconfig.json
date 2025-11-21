@@ -1,0 +1,4 @@
+{
+  "extends": "@battis/webpack/tsconfig.json",
+  "include": ["./src"]
+}

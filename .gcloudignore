@@ -1,9 +1,0 @@
-*
-.DS_Store
-!/composer.*
-!/index.php
-!/php.ini
-!/public
-!/src
-/src/*
-!/src/server

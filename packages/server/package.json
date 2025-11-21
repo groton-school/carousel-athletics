@@ -1,0 +1,69 @@
+{
+  "name": "@groton/carousel-athletics.server",
+  "version": "0.3.0",
+  "description": "Display athletics schedule information for Carousel",
+  "homepage": "https://github.com/groton-school/carousel-athletics/tree/main/packages/server#readme",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/groton-school/carousel-athletics.git",
+    "directory": "packages/server"
+  },
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Seth Battis",
+    "url": "https://github.com/groton-school"
+  },
+  "type": "module",
+  "files": [
+    "dist",
+    ".gcloudignore"
+  ],
+  "scripts": {
+    "build": "run-s build:*",
+    "build:clean": "del ./build",
+    "build:compile": "tsc",
+    "dist": "run-s dist:*",
+    "dist:build": "run-s build",
+    "dist:clean": "del ./dist",
+    "dist:deploy": "pnpm -F @groton/carousel-athletics.server --prod deploy dist",
+    "dist:uninject": "sed -i '/  injectWorkspacePackages: true/d' dist/pnpm-lock.yaml",
+    "dist:dist": "cpy build/* dist",
+    "dist:public": "cpy ../ui/dist/* dist/public",
+    "deploy": "run-s deploy:*",
+    "deploy:dist": "run-s dist",
+    "deploy:deploy": "./scripts/deploy -v",
+    "gcp-build": "echo \"Pre-compiled TypeScript\"",
+    "start": "node ./build/index.js"
+  },
+  "dependencies": {
+    "@google-cloud/secret-manager": "^6.1.1",
+    "async-mutex": "^0.5.0",
+    "express": "^5.1.0",
+    "feed": "^5.1.0",
+    "openid-client": "^6.8.1"
+  },
+  "devDependencies": {
+    "@battis/descriptive-types": "^0.2.6",
+    "@battis/partly-gcloudy": "^2.0.0",
+    "@inquirer/prompts": "^7.10.1",
+    "@qui-cli/colors": "^3.1.0",
+    "@qui-cli/core": "^5.0.0",
+    "@qui-cli/env-1password": "^1.0.5",
+    "@qui-cli/log": "^4.0.1",
+    "@qui-cli/plugin": "^4.0.0",
+    "@qui-cli/root": "^3.0.4",
+    "@qui-cli/shell": "^3.0.3",
+    "@qui-cli/validators": "^3.0.2",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "cpy-cli": "^6.0.0",
+    "del-cli": "^7.0.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=21",
+    "pnpm": ">=10"
+  }
+}

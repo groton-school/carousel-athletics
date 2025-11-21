@@ -1,0 +1,5 @@
+/.env
+/scripts/
+/src/
+/tsconfig.json
+*.md

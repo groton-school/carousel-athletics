@@ -1,0 +1,30 @@
+{
+  "name": "@groton/carousel-athletics.ui",
+  "version": "0.3.1",
+  "description": "Display athletics schedule information for Carousel",
+  "homepage": "https://github.com/groton-school/carousel-athletics/tree/main/packages/ui#readme",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/groton-school/carousel-athletics.git",
+    "directory": "packages/ui"
+  },
+  "license": "GPL-3.0",
+  "author": {
+    "name": "Seth Battis",
+    "url": "https://github.com/groton-school"
+  },
+  "type": "module",
+  "main": "./dist",
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "@battis/webpack": "^2.0.8",
+    "@types/node": "^24.10.1",
+    "commit-and-tag-version": "^12.6.0",
+    "npm-run-all": "^4.1.5"
+  }
+}
