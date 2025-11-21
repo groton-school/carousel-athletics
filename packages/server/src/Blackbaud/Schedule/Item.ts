@@ -107,11 +107,6 @@ export class Item {
         dateStyle: 'medium'
       })} ${this.data.game_time['start']}`;
       this._start = new Date(stringified_date);
-      console.log({
-        game_time: this.data.game_time,
-        stringified_date,
-        start: this._start
-      });
     }
     return this._start;
   }
@@ -125,11 +120,6 @@ export class Item {
         dateStyle: 'medium'
       })} ${this.data.game_time['end']}`;
       this._end = new Date(stringified_date);
-      console.log({
-        game_time: this.data.game_time,
-        stringified_date,
-        end: this.end
-      });
     }
     return this._end;
   }
