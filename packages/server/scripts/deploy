@@ -7,10 +7,43 @@ import { Core } from '@qui-cli/core';
 import { Env } from '@qui-cli/env-1password';
 import { Log } from '@qui-cli/log';
 import * as Plugin from '@qui-cli/plugin';
-import { Root } from '@qui-cli/root';
 import { Shell } from '@qui-cli/shell';
 import { Validators } from '@qui-cli/validators';
 import path from 'node:path';
+
+/*
+type RedisInstance = {
+  authorizedNetwork: string,
+  availableMaintenanceVersions: string[
+   
+  ],
+  connectMode: string,
+  createTime: DateTimeString,
+  currentLocationId: string,
+  host: string,
+  locationId: string,
+  maintenanceVersion: string,
+  memorySizeGb: number,
+  name: string,
+  nodes: 
+    {
+      id: string,
+      zone: string
+    }[]
+  ,
+  persistenceConfig: {
+    persistenceMode: string
+  },
+  persistenceIamIdentity: string,
+  port:number,
+  readReplicasMode: string,
+  redisVersion: string,
+  reservedIpRange: string,
+  state: string,
+  tier: string,
+  transitEncryptionMode: string
+}
+  */
 
 let setup = false;
 let name = 'Carousel - Athletics';
@@ -171,11 +204,11 @@ async function run() {
   try {
     const app = JSON.parse(
       Shell.exec(
-        `gcloud run deploy athletics --source dist --service-account="${
+        `gcloud run deploy athletics --source dist --service-account=${
           email
-        }" --region="${
+        } --region=${
           region
-        }" --set-env-vars="GOOGLE_CLOUD_PROJECT=${projectId}" --allow-unauthenticated --base-image=nodejs22 --automatic-updates --project="${projectId}" --format=json`
+        } --set-env-vars="GOOGLE_CLOUD_PROJECT=${projectId}" --allow-unauthenticated --base-image=nodejs22 --automatic-updates --project=${projectId} --format=json`
       ).stdout
     );
     Log.info(

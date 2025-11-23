@@ -1,4 +1,6 @@
 import { RequestHandler } from 'express';
+import crypto from 'node:crypto';
+import EventEmitter from 'node:events';
 import * as Client from 'openid-client';
 import { SecretManager } from '../Google/index.js';
 
@@ -12,16 +14,20 @@ type Credentials = {
   tokens?: TimeStampedTokens;
 };
 
-export class SKY {
+export class SKY extends EventEmitter {
   private static readonly SECRET_NAME = 'BLACKBAUD';
+  private static readonly EVENT_NAME = 'SEMAPHORE';
   private static instance?: SKY = undefined;
 
   private config: Promise<Client.Configuration>;
   private credentials: Promise<Credentials>;
   private code_verifier?: string;
   private state?: string;
+  private tokens?: TimeStampedTokens = undefined;
+  private refreshing = false;
 
   private constructor() {
+    super();
     this.credentials = this.getCredentials();
     this.config = new Promise((resolve) => {
       this.credentials.then((credentials) => {
@@ -77,6 +83,13 @@ export class SKY {
     return Client.buildAuthorizationUrl(await this.config, parameters).href;
   }
 
+  public async deauthorize() {
+    await SecretManager.set(SKY.SECRET_NAME, {
+      ...(await this.credentials),
+      tokens: undefined
+    });
+  }
+
   public handleRedirect: RequestHandler = async (req, res) => {
     this.saveTokens(
       await Client.authorizationCodeGrant(
@@ -107,25 +120,49 @@ export class SKY {
   }
 
   private async getToken() {
-    let tokens = (await this.credentials).tokens;
-    if (tokens) {
+    if (this.tokens === undefined) {
+      this.tokens = (await this.credentials).tokens;
+    }
+    if (this.tokens) {
       if (
-        tokens.expires_in &&
-        tokens.expires_in * 1000 + tokens.timestamp < Date.now()
+        this.tokens.expires_in &&
+        this.tokens.expires_in * 1000 + this.tokens.timestamp < Date.now()
       ) {
-        if (tokens.refresh_token) {
-          tokens = await this.saveTokens(
-            await Client.refreshTokenGrant(
-              await this.config,
-              tokens.refresh_token
-            )
-          );
+        if (this.refreshing) {
+          return new Promise<TimeStampedTokens | undefined>((resolve) => {
+            const listener = (tokens?: TimeStampedTokens) => {
+              this.removeListener(SKY.EVENT_NAME, listener);
+              resolve(tokens);
+            };
+            this.addListener(SKY.EVENT_NAME, listener);
+          });
         } else {
-          tokens = undefined;
+          this.refreshing = true;
+          if (this.tokens.refresh_token) {
+            this.tokens = await this.saveTokens(
+              await Client.refreshTokenGrant(
+                await this.config,
+                this.tokens.refresh_token
+              )
+            );
+          } else {
+            console.error('Token expired and no refresh token available');
+            this.tokens = undefined;
+            await SecretManager.set(SKY.SECRET_NAME, {
+              ...(await this.credentials),
+              tokens: undefined
+            });
+          }
+          this.emit(SKY.EVENT_NAME, this.tokens);
+          this.refreshing = false;
         }
       }
+    } else {
+      console.error(
+        'Non-interactive request for tokens without prior authorization'
+      );
     }
-    return tokens;
+    return this.tokens;
   }
 
   public async fetch<T = unknown>(

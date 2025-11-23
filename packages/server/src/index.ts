@@ -31,6 +31,10 @@ app.get('/authorize', async (_, res) => {
   res.redirect(await sky.getAuthorizeUrl());
 });
 app.get('/redirect', sky.handleRedirect.bind(sky));
+app.get('/deauthorize', async (_, res) => {
+  await sky.deauthorize();
+  res.redirect('/');
+});
 
 app.get('/teams', async (...args) => {
   await requireAuthorization(
@@ -45,8 +49,20 @@ app.get('/atom', async (...args) => {
   await requireAuthorization(
     async (req, res) => {
       const feed = await feedFromRequest(req);
+      res.appendHeader('Content-Type', 'application/rss+xml');
+      if (feed.items.length) {
+        res.send(feed.atom1());
+      }
+    },
+    ...args
+  );
+});
+app.get('/rss', async (...args) => {
+  await requireAuthorization(
+    async (req, res) => {
+      const feed = await feedFromRequest(req);
       res.appendHeader('Content-Type', 'text/xml');
-      res.send(feed.atom1());
+      res.send(feed.rss2());
     },
     ...args
   );

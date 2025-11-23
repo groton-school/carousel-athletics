@@ -8,7 +8,9 @@ export async function feedFromRequest(req: Request) {
 
   const base_title = team_id
     ? (await Team.get(team_id.toString()))!.name
-    : `${schedule[0].date} &ndash; ${schedule[schedule.length - 1].date}`;
+    : schedule.length
+      ? `${schedule[0].date} &ndash; ${schedule[schedule.length - 1].date}`
+      : 'Groton Athletics';
   let actual_title = title?.toString() || base_title;
   switch (title_position) {
     case 'prepend':
@@ -22,9 +24,11 @@ export async function feedFromRequest(req: Request) {
   }
   const feed = new Feed({
     id: 'https://groton.myschoolapp.com/app/extracurricular?svcid=edu',
+    link: 'https://groton.myschoolapp.com/app/extracurricular?svcid=edu',
     title: actual_title,
-    description: 'Live updating feed of athletics information from Blackbaud',
+    description: 'Live updating feed of athletics information from myGroton',
     language: 'en',
+    updated: new Date(),
     copyright: `All rights reserved ${new Date().toLocaleDateString('en', { year: 'numeric' })}, Groton School`
   });
   for (const item of schedule) {
