@@ -134,22 +134,25 @@ export class SKY extends Blockable {
           return this.tokens;
         } else {
           await this.acquire(SKY.REFRESH_TOKEN);
-          if (this.tokens.refresh_token) {
-            this.tokens = await this.saveTokens(
-              await Client.refreshTokenGrant(
-                await this.config,
-                this.tokens.refresh_token
-              )
-            );
-          } else {
-            console.error('Token expired and no refresh token available');
-            this.tokens = undefined;
-            await this.secretManager.set(SKY.SECRET_NAME, {
-              ...(await this.credentials),
-              tokens: undefined
-            });
+          try {
+            if (this.tokens.refresh_token) {
+              this.tokens = await this.saveTokens(
+                await Client.refreshTokenGrant(
+                  await this.config,
+                  this.tokens.refresh_token
+                )
+              );
+            } else {
+              console.error('Token expired and no refresh token available');
+              this.tokens = undefined;
+              await this.secretManager.set(SKY.SECRET_NAME, {
+                ...(await this.credentials),
+                tokens: undefined
+              });
+            }
+          } finally {
+            this.release(SKY.REFRESH_TOKEN);
           }
-          this.release(SKY.REFRESH_TOKEN);
         }
       }
     } else {
