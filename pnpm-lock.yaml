@@ -110,9 +110,6 @@ importers:
       '@types/node':
         specifier: ^24.10.1
         version: 24.10.1
-      commit-and-tag-version:
-        specifier: ^12.6.0
-        version: 12.6.0
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
