@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
-import EventEmitter from 'node:events';
 import * as Client from 'openid-client';
+import { Blockable } from '../Blockable.js';
 import { SecretManager } from '../Google/index.js';
 
 type TimeStampedTokens = Client.TokenEndpointResponse & { timestamp: number };
@@ -13,9 +13,9 @@ type Credentials = {
   tokens?: TimeStampedTokens;
 };
 
-export class SKY extends EventEmitter {
+export class SKY extends Blockable {
   private static readonly SECRET_NAME = 'BLACKBAUD';
-  private static readonly EVENT_NAME = 'SEMAPHORE';
+  private static readonly REFRESH_TOKEN = `${SKY.name}.refreshToken`;
   private static instance?: SKY = undefined;
 
   private config: Promise<Client.Configuration>;
@@ -23,7 +23,7 @@ export class SKY extends EventEmitter {
   private code_verifier?: string;
   private state?: string;
   private tokens?: TimeStampedTokens = undefined;
-  private refreshing = false;
+  private secretManager = new SecretManager();
 
   private constructor() {
     super();
@@ -54,7 +54,9 @@ export class SKY extends EventEmitter {
   }
 
   private async getCredentials() {
-    const credentials = await SecretManager.get<Credentials>(SKY.SECRET_NAME);
+    const credentials = await this.secretManager.get<Credentials>(
+      SKY.SECRET_NAME
+    );
     if (credentials) {
       return credentials;
     }
@@ -83,7 +85,7 @@ export class SKY extends EventEmitter {
   }
 
   public async deauthorize() {
-    await SecretManager.set(SKY.SECRET_NAME, {
+    await this.secretManager.set(SKY.SECRET_NAME, {
       ...(await this.credentials),
       tokens: undefined
     });
@@ -111,7 +113,7 @@ export class SKY extends EventEmitter {
       ...tokens,
       timestamp: Date.now()
     };
-    await SecretManager.set(SKY.SECRET_NAME, {
+    await this.secretManager.set(SKY.SECRET_NAME, {
       ...(await this.credentials),
       tokens: timestampedTokens
     });
@@ -127,16 +129,11 @@ export class SKY extends EventEmitter {
         this.tokens.expires_in &&
         this.tokens.expires_in * 1000 + this.tokens.timestamp < Date.now()
       ) {
-        if (this.refreshing) {
-          return new Promise<TimeStampedTokens | undefined>((resolve) => {
-            const listener = (tokens?: TimeStampedTokens) => {
-              this.removeListener(SKY.EVENT_NAME, listener);
-              resolve(tokens);
-            };
-            this.addListener(SKY.EVENT_NAME, listener);
-          });
+        if (this.isBlocked(SKY.REFRESH_TOKEN)) {
+          await this.available(SKY.REFRESH_TOKEN);
+          return this.tokens;
         } else {
-          this.refreshing = true;
+          await this.acquire(SKY.REFRESH_TOKEN);
           if (this.tokens.refresh_token) {
             this.tokens = await this.saveTokens(
               await Client.refreshTokenGrant(
@@ -147,13 +144,12 @@ export class SKY extends EventEmitter {
           } else {
             console.error('Token expired and no refresh token available');
             this.tokens = undefined;
-            await SecretManager.set(SKY.SECRET_NAME, {
+            await this.secretManager.set(SKY.SECRET_NAME, {
               ...(await this.credentials),
               tokens: undefined
             });
           }
-          this.emit(SKY.EVENT_NAME, this.tokens);
-          this.refreshing = false;
+          this.release(SKY.REFRESH_TOKEN);
         }
       }
     } else {

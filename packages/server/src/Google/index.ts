@@ -1,1 +1,1 @@
-export * as SecretManager from './SecretManager.js';
+export * from './SecretManager.js';
