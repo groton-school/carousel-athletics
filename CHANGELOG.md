@@ -1,8 +1,27 @@
 <!--- BEGIN HEADER -->
 # Changelog
 
-All notable changes to this project will be documented in this file.
-<!--- END HEADER -->
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [0.4.0](https://github.com/groton-school/carousel-athletics/compare/v0.3.0...v0.4.0) (2025-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* rewrite as a Google Cloud Run Node.js app
+* deploy to Google Cloud Run
+
+### Features
+
+* deploy to Google Cloud Run ([61a85c1](https://github.com/groton-school/carousel-athletics/commit/61a85c16b24e0aa524bf330a11916452022611f5))
+* rewrite as a Google Cloud Run Node.js app ([607430f](https://github.com/groton-school/carousel-athletics/commit/607430f647bb71dea092400a975374065870a715))
+
+
+### Bug Fixes
+
+* include Bootstrap stylesheet ([4387085](https://github.com/groton-school/carousel-athletics/commit/4387085458da50b925bb70008bbd22e9e164938e))
+* restore app_engine_apis ([238e05d](https://github.com/groton-school/carousel-athletics/commit/238e05df5c63ccb46e3e2f365c18685f982ca3bc))
+* tolerate missing win_loss column ([80b076d](https://github.com/groton-school/carousel-athletics/commit/80b076d209e66601dbf68bed4e2ef0ef04b13a43))
 
 ## [0.3.0](https://github.com/groton-school/carousel-athletics/compare/v0.2.4...v0.3.0) (2025-08-01)
 
