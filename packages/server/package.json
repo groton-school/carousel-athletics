@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@google-cloud/secret-manager": "^6.1.1",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "feed": "^5.1.0",
     "openid-client": "^6.8.1"
   },
@@ -54,7 +54,7 @@
     "@qui-cli/shell": "^3.0.3",
     "@qui-cli/validators": "^3.0.2",
     "@tsconfig/node22": "^22.0.5",
-    "@types/express": "^5.0.5",
+    "@types/express": "^5.0.6",
     "@types/node": "^24.10.1",
     "cpy-cli": "^6.0.0",
     "del-cli": "^7.0.0",
