@@ -9,8 +9,8 @@ import { toURLQueryString } from '../toURLQueryString.js';
 import { Data, Item } from './Item.js';
 
 type Query = {
-  start_relative?: NumericString;
-  end_relative?: NumericString;
+  start_relative?: string;
+  end_relative?: string;
   start_date?: DateString<'ISO'>;
   end_date?: DateString<'ISO'>;
   school_year?: string;
@@ -45,8 +45,21 @@ export async function get(args: Query = {}) {
     );
 }
 
-function toDate(relative: NumericString) {
-  return new Date(Date.now() + parseInt(relative) * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 10);
+function toDate(relative: string) {
+  let date = new Date();
+  const [, quant = '0', unit = 'day'] =
+    relative.match(/^\+?(-?\d+)\s*(day|week|month)s?$/) || [];
+  const num = parseInt(quant);
+  switch (unit) {
+    case 'day':
+      date = new Date(date.setDate(date.getDate() + num));
+      break;
+    case 'week':
+      date = new Date(date.setDate(date.getDate() + num * 7));
+      break;
+    case 'month':
+      date = new Date(date.setMonth(date.getMonth() + num));
+      break;
+  }
+  return date.toISOString().slice(0, 10);
 }
