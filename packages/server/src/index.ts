@@ -50,9 +50,7 @@ app.get('/atom', async (...args) => {
     async (req, res) => {
       const feed = await feedFromRequest(req);
       res.appendHeader('Content-Type', 'application/rss+xml');
-      if (feed.items.length) {
-        res.send(feed.atom1());
-      }
+      res.send(feed.atom1());
     },
     ...args
   );
