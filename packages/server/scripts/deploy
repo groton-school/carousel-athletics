@@ -208,7 +208,7 @@ async function run() {
           email
         } --region=${
           region
-        } --set-env-vars="GOOGLE_CLOUD_PROJECT=${projectId}" --allow-unauthenticated --base-image=nodejs22 --automatic-updates --project=${projectId} --format=json`
+        } --set-env-vars="GOOGLE_CLOUD_PROJECT=${projectId}" --allow-unauthenticated --base-image=nodejs22 --automatic-updates --max=1 --project=${projectId} --format=json`
       ).stdout
     );
     Log.info(
