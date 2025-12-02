@@ -31,7 +31,7 @@
     "dist:public": "cpy ../ui/dist/* dist/public",
     "deploy": "run-s deploy:*",
     "deploy:dist": "run-s dist",
-    "deploy:deploy": "./scripts/deploy -v",
+    "deploy:deploy": "source ../../.env; ./scripts/deploy -v --serviceAccountToken \"$(op item get --account $OP_ACCOUNT --reveal --fields credential $OP_TOKEN)\"",
     "gcp-build": "echo \"Pre-compiled TypeScript\"",
     "start": "node ./build/index.js"
   },
