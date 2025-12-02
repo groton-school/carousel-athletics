@@ -3,6 +3,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.1](https://github.com/groton-school/carousel-athletics/compare/v0.4.0...v0.4.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* allow zero-item ATOM feeds ([9276422](https://github.com/groton-school/carousel-athletics/commit/92764225034377a91b225419cf125e8d25c31330))
+* restore units to relative date calculation ([117a5cb](https://github.com/groton-school/carousel-athletics/commit/117a5cb3cfd74246db8d48d9daf830a2ecaff3e1))
+
 ## [0.4.0](https://github.com/groton-school/carousel-athletics/compare/v0.3.0...v0.4.0) (2025-11-24)
 
 
