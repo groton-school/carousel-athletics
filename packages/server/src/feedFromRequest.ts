@@ -50,6 +50,7 @@ export async function feedFromRequest(req: Request) {
         ],
         title: item.future ? item.start.toLocaleString() : item.score,
         content: item.future ? item.home_or_away : item.outcome,
+        description: item.opponents,
         id: item.uuid,
         link: item.uuid
       });

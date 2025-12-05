@@ -150,6 +150,10 @@ export class Item {
     );
   }
 
+  public get opponents() {
+    return this.data.opponents?.map((opponent) => opponent.name).join(', ');
+  }
+
   public get score() {
     return this.data.opponents
       ? (this.data.opponents || [])
