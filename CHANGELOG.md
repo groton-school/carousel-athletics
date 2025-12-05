@@ -3,6 +3,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.3](https://github.com/groton-school/carousel-athletics/compare/v0.4.2...v0.4.3) (2025-12-05)
+
+
+### Bug Fixes
+
+* include opponents ([8f80bd3](https://github.com/groton-school/carousel-athletics/commit/8f80bd3f7927aa87990f6c6d7fde7d8b62fa08b9))
+
 ## [0.4.2](https://github.com/groton-school/carousel-athletics/compare/v0.4.1...v0.4.2) (2025-12-02)
 
 
