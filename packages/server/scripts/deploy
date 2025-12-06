@@ -156,6 +156,8 @@ async function run() {
     });
     projectId = project.projectId;
     await Env.set({ key: 'PROJECT', value: projectId });
+    await gcloud.services.enable(gcloud.services.API.CloudRunAdminAPI);
+    await gcloud.services.enable(gcloud.services.API.ArtifactRegistryAPI);
     region = await select({
       message: 'Which region would you like to deploy to?',
       default: region,
@@ -168,8 +170,6 @@ async function run() {
         value: r.locationId
       }))
     });
-    await gcloud.services.enable(gcloud.services.API.CloudRunAdminAPI);
-    await gcloud.services.enable(gcloud.services.API.ArtifactRegistryAPI);
 
     let identity;
     if (email) {
