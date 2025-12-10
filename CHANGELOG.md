@@ -3,6 +3,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.4.4](https://github.com/groton-school/carousel-athletics/compare/v0.4.3...v0.4.4) (2025-12-10)
+
+
+### Bug Fixes
+
+* enable Cloud Run API before querying regions ([464240b](https://github.com/groton-school/carousel-athletics/commit/464240bca1af8ab15565d59ca005d25412373954))
+
 ## [0.4.3](https://github.com/groton-school/carousel-athletics/compare/v0.4.2...v0.4.3) (2025-12-05)
 
 
