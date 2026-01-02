@@ -1,11 +1,11 @@
 {
-  "name": "@groton/carousel-athletics",
+  "name": "@groton/blackbaud-athletics-rss",
   "version": "0.4.4",
-  "description": "Display athletics schedule information for Carousel",
-  "homepage": "https://github.com/groton-school/carousel-athletics#readme",
+  "description": "Generate RSS feeds for Blackbaud athetics team schedules",
+  "homepage": "https://github.com/groton-school/blackbaud-athletics-rss#readme",
   "repository": {
     "type": "github",
-    "url": "https://github.com/groton-school/carousel-athletics.git"
+    "url": "https://github.com/groton-school/blackbaud-athletics-rss.git"
   },
   "license": "GPL-3.0",
   "author": {

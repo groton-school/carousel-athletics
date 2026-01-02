@@ -1,6 +1,6 @@
-# Carousel Athletics
+# Blackbaud Athletics RSS
 
-Display athletics schedule information for Carousel
+Generate RSS feeds for Blackbaud athetics team schedules
 
 ## Install
 
@@ -14,7 +14,7 @@ Prerequisites:
 Clone repo and install dependencies:
 
 ```sh
-git clone git@github.com:groton-school/carousel-athletics.git path/to/project
+git clone git@github.com:groton-school/blackbaud-athletics-rss.git path/to/project
 cd path/to/project
 composer install
 npm install
